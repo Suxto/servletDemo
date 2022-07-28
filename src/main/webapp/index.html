@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <link rel="stylesheet" href="Style/index.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<h1 class="text-center p-5">用户信息表</h1>
+<div class="container pt-1">
+    <table class="align-content-center table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Tel</th>
+        </tr>
+        </thead>
+        <tr th:if="${#lists.isEmpty(session.userList)}">
+            <td colspan="3" class="text-center">数据为空</td>
+        </tr>
+        <tr th:unless="${#lists.isEmpty(session.userList)}" th:each="user:${session.userList}">
+            <td > <a th:href="@{/edit.do(id=${user.id})}" th:text="${user.uName}"></a></td>
+            <td th:text="${user.uAge}"></td>
+            <td th:text="${user.uTel}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
