@@ -16,8 +16,8 @@
     <table class="align-content-center table table-striped">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Age</th>
+            <th class="w-25">Name</th>
+            <th class="w-25">Age</th>
             <th>Tel</th>
         </tr>
         </thead>
@@ -30,6 +30,33 @@
             <td th:text="${user.uTel}"></td>
         </tr>
     </table>
+    <ul class="flex-row justify-content-center pt-4 pagination">
+
+        <li class="page-item">
+            <a class="page-link" th:href="@{/index(pageNo=${session.pageNo - 1>0 ?session.pageNo - 1:1})}">Previous</a>
+        </li>
+
+        <li class="page-item" th:classappend="${session.pageNo==1}?'active':''">
+            <a class="page-link" th:href="@{/index(pageNo=1)}">1</a>
+        </li>
+
+        <li class="page-item" th:classappend="${session.pageNo==2}?'active':''">
+            <a class="page-link" th:href="@{/index(pageNo=2)}">2</a>
+        </li>
+
+        <li class="page-item"><a class="page-link" th:if="${session.totPg>3}">...</a></li>
+
+        <li class="page-item" th:classappend="${session.pageNo==session.totPg}?'active':''">
+            <a class="page-link" th:if="${session.totPg>2}" th:href="@{/index(pageNo=${session.totPg})}"
+               th:text="${session.totPg}"></a>
+        </li>
+
+        <li class="page-item">
+            <a class="page-link"
+               th:href="@{/index(pageNo=${session.pageNo + 1>session.totPg?session.totPg:session.pageNo + 1})}">Next
+            </a>
+        </li>
+    </ul>
 </div>
 </body>
 </html>

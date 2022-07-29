@@ -134,8 +134,26 @@ public class Utils {
         return t;
     }
 
-    //modify a record
-    @Test
+    public static Long getCount(String sql) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = Utils.getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return (Long) rs.getObject(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeResource(conn, ps, rs);
+        }
+        return null;
+    }
+
+
     public static void upDate(String sql, Object... args) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -153,6 +171,5 @@ public class Utils {
             Utils.closeResource(conn, ps);
         }
     }
-
 
 }
