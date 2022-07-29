@@ -8,7 +8,7 @@
       </options>
     </properties>
     <root id="archive" name="servletDemo-1.0-SNAPSHOT.war">
-      <element id="artifact" artifact-name="servletDemo:war exploded" />
+      <element id="artifact" artifact-name="servletDemo" />
     </root>
   </artifact>
 </component>

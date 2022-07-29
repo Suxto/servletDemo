@@ -1,45 +1,18 @@
-package com.servletdemo.servlets;
+package com.servletdemo.controllers;
 
 import com.servletdemo.bean.User;
-import com.servletdemo.myspringmvc.ViewBaseServlet;
 import com.servletdemo.utils.JDBC;
 import com.servletdemo.utils.Tools;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/user.do")
-public class UserServlet extends ViewBaseServlet {
-    @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        req.setCharacterEncoding("utf-8");
-        String operate = req.getParameter("operate");
-        if (Tools.isEmpty(operate)) operate = "index";
-        switch (operate) {
-            case "index":
-                index(req, resp);
-                break;
-            case "search":
-                search(req, resp);
-                break;
-            case "add":
-                add(req, resp);
-                break;
-            case "edit":
-                edit(req, resp);
-                break;
-            case "remove":
-                remove(req, resp);
-                break;
-        }
-    }
+//@WebServlet("/user.do")
+public class UserController {
 
-    private void index(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private String index(HttpServletRequest req) {
         HttpSession session = req.getSession();
         List<User> list;
         long pageNo = 1, tot;
@@ -68,31 +41,34 @@ public class UserServlet extends ViewBaseServlet {
         tot = (tot + 5) / 6;
         session.setAttribute("totPg", tot);
         session.setAttribute("userList", list);
-        super.processTemplate("user", req, resp);
+        return "user";
+//        super.processTemplate("user", req, resp);
     }
 
-    private void search(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private String search(HttpServletRequest req) {
         HttpSession session = req.getSession();
         String keyword = req.getParameter("keyword");
         if (Tools.isnEmpty(keyword)) session.setAttribute("keyword", keyword);
         else session.setAttribute("keyword", null);
-        index(req, resp);
+        return index(req);
     }
 
-    private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private String add(HttpServletRequest req) {
         String uName = req.getParameter("uName");
         if (uName != null) {
             String uAge = req.getParameter("uAge");
             String uTel = req.getParameter("uTel");
             String sql = "insert into users (uName,uAge,uTel) values (?,?,?)";
             JDBC.upDate(sql, uName, uAge, uTel);
-            resp.sendRedirect("user.do");
+//            resp.sendRedirect("user.do");
+            return "redirect:user.do";
         } else {
-            super.processTemplate("add", req, resp);
+//            super.processTemplate("add", req, resp);
+            return "add";
         }
     }
 
-    private void edit(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private String edit(HttpServletRequest req) {
         HttpSession session = req.getSession();
         User user;
         String sql;
@@ -103,23 +79,26 @@ public class UserServlet extends ViewBaseServlet {
             user.setuTel(req.getParameter("uTel"));
             sql = "update users set uName = ?, uAge = ?, uTel = ? where id = ?";
             JDBC.upDate(sql, user.getuName(), user.getuAge(), user.getuTel(), user.getId());
-            resp.sendRedirect("user.do");
+//            resp.sendRedirect("user.do");
+            return "redirect:user.do";
         } else {
             String id = req.getParameter("id");
             sql = "select * from users where id = ?";
             user = JDBC.getOne(User.class, sql, id);
             session.setAttribute("user", user);
             session.removeAttribute("userList");
-            super.processTemplate("edit", req, resp);
+//            super.processTemplate("edit", req, resp);
+            return "edit";
         }
     }
 
-    private void remove(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private String remove(HttpServletRequest req) {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         int id = user.getId();
         String sql = "delete from users where id = ?";
         JDBC.upDate(sql, id);
-        resp.sendRedirect("user.do");
+//        resp.sendRedirect("user.do");
+        return "redirect:user.do";
     }
 }
