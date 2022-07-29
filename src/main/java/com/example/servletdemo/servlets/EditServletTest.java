@@ -19,6 +19,7 @@ public class EditServletTest extends ViewBaseServlet {
         String id = req.getParameter("id");
         String toRemove = req.getParameter("remove");
         HttpSession session = req.getSession();
+        System.out.println(id+' '+toRemove);
         if (toRemove != null) {
             String sql = "delete from users where id = ?";
             Utils.upDate(sql, id);
