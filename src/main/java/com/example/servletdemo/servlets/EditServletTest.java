@@ -17,12 +17,19 @@ public class EditServletTest extends ViewBaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
+        String toRemove = req.getParameter("remove");
         HttpSession session = req.getSession();
-        String sql = "select * from users where id = ?";
-        User user = Utils.getOne(User.class, sql, id);
+        if (toRemove != null) {
+            String sql = "delete from users where id = ?";
+            Utils.upDate(sql, id);
+            resp.sendRedirect("index");
+        } else {
+            String sql = "select * from users where id = ?";
+            User user = Utils.getOne(User.class, sql, id);
 //        System.out.println(user);
-        session.setAttribute("user", user);
-        super.processTemplate("edit", req, resp);
+            session.setAttribute("user", user);
+            super.processTemplate("edit", req, resp);
+        }
     }
 
     @Test
