@@ -1,6 +1,6 @@
-package com.example.servletdemo.Utils;
+package com.servletdemo.utils;
 
-public class tools {
+public class Tools {
     public static boolean isEmpty(String str) {
         return str == null || "".equals(str);
     }

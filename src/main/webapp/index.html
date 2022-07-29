@@ -11,11 +11,11 @@
 <body>
 <h1 class="text-center p-5">用户信息表</h1>
 <div class="container pt-1">
-    <form method="post" action="index" id="search">
-        <div class="m-3 ms-5">
+    <form method="post" th:action="@{/index(operate=search)}" id="search">
+        <div class="m-3 ms-2">
             <label for="keyword" class="form-label ms-5">Search For Keyword:</label>
-            <div class="row w-75 ms-5">
-                <div class="col-10">
+            <div class="row ms-5">
+                <div class="col-7">
                     <input type="text" class="form-control" id="keyword" placeholder="Enter Keyword" name="keyword"
                            th:value="${session.keyword}">
                 </div>
@@ -25,12 +25,15 @@
                 <div class="col-1">
                     <button type="button" class="btn btn-primary" onclick="clearKeyword()">Clear</button>
                 </div>
+                <div class="col-3">
+                    <button class="btn btn-primary">
+                        <a th:href="@{/index(operate=add)}" class="link-light text-decoration-none">添加用户</a>
+                    </button>
+                </div>
             </div>
         </div>
     </form>
-    <button class="btn btn-primary float-end">
-        <a th:href="@{/add}" class="link-light text-decoration-none">添加用户</a>
-    </button>
+
     <table class="align-content-center table table-striped">
         <thead>
         <tr>
@@ -43,7 +46,7 @@
             <td colspan="3" class="text-center">数据为空</td>
         </tr>
         <tr th:unless="${#lists.isEmpty(session.userList)}" th:each="user:${session.userList}">
-            <td><a th:href="@{/edit.do(id=${user.id})}" th:text="${user.uName}"></a></td>
+            <td><a th:href="@{/index(id=${user.id},operate='edit')}" th:text="${user.uName}"></a></td>
             <td th:text="${user.uAge}"></td>
             <td th:text="${user.uTel}"></td>
         </tr>

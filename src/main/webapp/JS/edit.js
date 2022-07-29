@@ -1,7 +1,7 @@
-function remove() {
-    // console.log(typeof location.href);
-    var href = location.href;
+function remove(href) {
+    // var href = location.href;
+    // console.log(href);
     if (confirm("Are You Sure?")) {
-        window.location.href = href+"&remove=true";
+        window.location.href = href;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.servletdemo.myspringmvc;
+package com.servletdemo.myspringmvc;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -18,7 +18,7 @@ public class ViewBaseServlet extends HttpServlet {
     private TemplateEngine templateEngine;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
 
         // 1.获取ServletContext对象
         ServletContext servletContext = this.getServletContext();

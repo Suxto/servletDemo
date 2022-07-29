@@ -1,4 +1,4 @@
-package com.example.servletdemo.Utils;
+package com.servletdemo.utils;
 
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
