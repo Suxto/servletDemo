@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit User</title>
-    <link rel="stylesheet" href="Style/index.css">
+    <link rel="stylesheet" href="Style/user.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
     <script src="JS/edit.js"></script>
@@ -39,7 +39,7 @@
             <tr>
                 <td colspan="2" class="text-center">
                     <button type="submit" class=" btn btn-primary w-25">Submit</button>
-                    <button type="button" class="btn btn-danger w-25" th:onclick="|remove('@{/index(operate=remove)}')|">Remove</button>
+                    <button type="button" class="btn btn-danger w-25" th:onclick="|remove('@{/user.do(operate=remove)}')|">Remove</button>
                 </td>
             </tr>
 

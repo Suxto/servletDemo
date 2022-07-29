@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>User List</title>
-    <link rel="stylesheet" href="Style/index.css">
+    <link rel="stylesheet" href="Style/user.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
-    <script src="JS/index.js" type="text/javascript"></script>
+    <script src="JS/user.js" type="text/javascript"></script>
 </head>
 <body>
 <h1 class="text-center p-5">用户信息表</h1>
 <div class="container pt-1">
-    <form method="post" th:action="@{/index(operate=search)}" id="search">
+    <form method="post" th:action="@{/user.do(operate=search)}" id="search">
         <div class="m-3 ms-2">
             <label for="keyword" class="form-label ms-5">Search For Keyword:</label>
             <div class="row ms-5">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-3">
                     <button class="btn btn-primary">
-                        <a th:href="@{/index(operate=add)}" class="link-light text-decoration-none">添加用户</a>
+                        <a th:href="@{/user.do(operate=add)}" class="link-light text-decoration-none">添加用户</a>
                     </button>
                 </div>
             </div>
@@ -46,7 +46,7 @@
             <td colspan="3" class="text-center">数据为空</td>
         </tr>
         <tr th:unless="${#lists.isEmpty(session.userList)}" th:each="user:${session.userList}">
-            <td><a th:href="@{/index(id=${user.id},operate='edit')}" th:text="${user.uName}"></a></td>
+            <td><a th:href="@{/user.do(id=${user.id},operate='edit')}" th:text="${user.uName}"></a></td>
             <td th:text="${user.uAge}"></td>
             <td th:text="${user.uTel}"></td>
         </tr>
@@ -54,27 +54,27 @@
     <ul class="flex-row justify-content-center pt-4 pagination" th:if="${session.totPg>0}">
 
         <li class="page-item">
-            <a class="page-link" th:href="@{/index(pageNo=${session.pageNo - 1>0 ?session.pageNo - 1:1})}">Previous</a>
+            <a class="page-link" th:href="@{/user.do(pageNo=${session.pageNo - 1>0 ?session.pageNo - 1:1})}">Previous</a>
         </li>
 
         <li class="page-item" th:classappend="${session.pageNo==1}?'active':''">
-            <a class="page-link" th:href="@{/index(pageNo=1)}">1</a>
+            <a class="page-link" th:href="@{/user.do(pageNo=1)}">1</a>
         </li>
 
         <li class="page-item" th:classappend="${session.pageNo==2}?'active':''" th:if="${session.totPg>1}">
-            <a class="page-link" th:href="@{/index(pageNo=2)}">2</a>
+            <a class="page-link" th:href="@{/user.do(pageNo=2)}">2</a>
         </li>
 
         <li class="page-item"><a class="page-link" th:if="${session.totPg>3}">...</a></li>
 
         <li class="page-item" th:classappend="${session.pageNo==session.totPg}?'active':''">
-            <a class="page-link" th:if="${session.totPg>2}" th:href="@{/index(pageNo=${session.totPg})}"
+            <a class="page-link" th:if="${session.totPg>2}" th:href="@{/user.do(pageNo=${session.totPg})}"
                th:text="${session.totPg}"></a>
         </li>
 
         <li class="page-item">
             <a class="page-link"
-               th:href="@{/index(pageNo=${session.pageNo + 1>session.totPg?session.totPg:session.pageNo + 1})}">Next
+               th:href="@{/user.do(pageNo=${session.pageNo + 1>session.totPg?session.totPg:session.pageNo + 1})}">Next
             </a>
         </li>
     </ul>

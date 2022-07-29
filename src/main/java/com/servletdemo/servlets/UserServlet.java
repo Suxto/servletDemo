@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/index")
+@WebServlet("/user.do")
 public class UserServlet extends ViewBaseServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -68,7 +68,7 @@ public class UserServlet extends ViewBaseServlet {
         tot = (tot + 5) / 6;
         session.setAttribute("totPg", tot);
         session.setAttribute("userList", list);
-        super.processTemplate("index", req, resp);
+        super.processTemplate("user", req, resp);
     }
 
     private void search(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -86,7 +86,7 @@ public class UserServlet extends ViewBaseServlet {
             String uTel = req.getParameter("uTel");
             String sql = "insert into users (uName,uAge,uTel) values (?,?,?)";
             JDBC.upDate(sql, uName, uAge, uTel);
-            resp.sendRedirect("index");
+            resp.sendRedirect("user.do");
         } else {
             super.processTemplate("add", req, resp);
         }
@@ -103,7 +103,7 @@ public class UserServlet extends ViewBaseServlet {
             user.setuTel(req.getParameter("uTel"));
             sql = "update users set uName = ?, uAge = ?, uTel = ? where id = ?";
             JDBC.upDate(sql, user.getuName(), user.getuAge(), user.getuTel(), user.getId());
-            resp.sendRedirect("index");
+            resp.sendRedirect("user.do");
         } else {
             String id = req.getParameter("id");
             sql = "select * from users where id = ?";
@@ -120,6 +120,6 @@ public class UserServlet extends ViewBaseServlet {
         int id = user.getId();
         String sql = "delete from users where id = ?";
         JDBC.upDate(sql, id);
-        resp.sendRedirect("index");
+        resp.sendRedirect("user.do");
     }
 }
