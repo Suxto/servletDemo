@@ -1,6 +1,6 @@
 package com.example.servletdemo.servlets;
 
-import com.example.servletdemo.JDBC.Utils;
+import com.example.servletdemo.Utils.JDBC;
 import com.example.servletdemo.myspringmvc.ViewBaseServlet;
 
 import javax.servlet.ServletException;
@@ -19,13 +19,13 @@ public class AddServlet extends ViewBaseServlet {
             String uAge = req.getParameter("uAge");
             String uTel = req.getParameter("uTel");
             String sql = "insert into users (uName,uAge,uTel) values (?,?,?)";
-            Utils.upDate(sql, uName, uAge, uTel);
+            JDBC.upDate(sql, uName, uAge, uTel);
         }
         resp.sendRedirect("index");
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         super.processTemplate("add", req, resp);
     }
 }

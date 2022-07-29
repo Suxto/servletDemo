@@ -1,21 +1,18 @@
-package com.example.servletdemo.JDBC;
-
-import org.junit.Test;
+package com.example.servletdemo.Utils;
 
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class Utils {
+public class JDBC {
     //获取数据库的连接
 
     public static Connection getConnection() throws Exception {
-        InputStream is = Utils.class.getResourceAsStream("/jdbc.properties");
+        InputStream is = JDBC.class.getResourceAsStream("/jdbc.properties");
 
         Properties pros = new Properties();
         pros.load(is);
@@ -63,7 +60,7 @@ public class Utils {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            conn = Utils.getConnection();
+            conn = JDBC.getConnection();
             ps = conn.prepareStatement(sql);
             for (int i = 0; i < args.length; i++) {
                 ps.setObject(i + 1, args[i]);
@@ -84,7 +81,7 @@ public class Utils {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            Utils.closeResource(conn, ps, rs);
+            JDBC.closeResource(conn, ps, rs);
         }
         return null;
     }
@@ -95,16 +92,18 @@ public class Utils {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            conn = Utils.getConnection();
+            conn = JDBC.getConnection();
             ps = conn.prepareStatement(sql);
             for (int i = 0; i < args.length; i++) {
                 ps.setObject(i + 1, args[i]);
             }
             rs = ps.executeQuery();
             Constructor<T> con = clazz.getConstructor();
+
             if (rs.next()) {
                 return getInstance(clazz, rs, con);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -114,15 +113,14 @@ public class Utils {
     }
 
     public static <T> T getInstance(Class<T> clazz, ResultSet rs, Constructor<T> con) {
-        T t = null;
-        ResultSetMetaData metaData = null;
+        T t ;
+        ResultSetMetaData metaData;
         try {
             t = con.newInstance();
             metaData = rs.getMetaData();
             for (int i = 0; i < metaData.getColumnCount(); i++) {
                 Object value = rs.getObject(i + 1);
                 String columnLabel = metaData.getColumnLabel(i + 1);
-                //通过反射赋值,注意使用泛型对象来获取反射
                 Field field = clazz.getDeclaredField(columnLabel);
                 field.setAccessible(true);
                 field.set(t, value);
@@ -134,13 +132,17 @@ public class Utils {
         return t;
     }
 
-    public static Long getCount(String sql) {
+    public static long getCount(String sql, Object... args) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            conn = Utils.getConnection();
+            conn = JDBC.getConnection();
             ps = conn.prepareStatement(sql);
+
+            for (int i = 0; i < args.length; i++) {
+                ps.setObject(i + 1, args[i]);
+            }
             rs = ps.executeQuery();
             if (rs.next()) {
                 return (Long) rs.getObject(1);
@@ -150,7 +152,7 @@ public class Utils {
         } finally {
             closeResource(conn, ps, rs);
         }
-        return null;
+        return 0;
     }
 
 
@@ -168,7 +170,7 @@ public class Utils {
             e.printStackTrace();
         } finally {
             //5.关闭资源
-            Utils.closeResource(conn, ps);
+            JDBC.closeResource(conn, ps);
         }
     }
 

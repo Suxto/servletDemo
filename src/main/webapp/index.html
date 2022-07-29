@@ -6,10 +6,28 @@
     <link rel="stylesheet" href="Style/index.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+    <script src="JS/index.js" type="text/javascript"></script>
 </head>
 <body>
 <h1 class="text-center p-5">用户信息表</h1>
 <div class="container pt-1">
+    <form method="post" action="index" id="search">
+        <div class="m-3 ms-5">
+            <label for="keyword" class="form-label ms-5">Search For Keyword:</label>
+            <div class="row w-75 ms-5">
+                <div class="col-10">
+                    <input type="text" class="form-control" id="keyword" placeholder="Enter Keyword" name="keyword"
+                           th:value="${session.keyword}">
+                </div>
+                <div class="col-1">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-primary" onclick="clearKeyword()">Clear</button>
+                </div>
+            </div>
+        </div>
+    </form>
     <button class="btn btn-primary float-end">
         <a th:href="@{/add}" class="link-light text-decoration-none">添加用户</a>
     </button>
@@ -30,7 +48,7 @@
             <td th:text="${user.uTel}"></td>
         </tr>
     </table>
-    <ul class="flex-row justify-content-center pt-4 pagination">
+    <ul class="flex-row justify-content-center pt-4 pagination" th:if="${session.totPg>0}">
 
         <li class="page-item">
             <a class="page-link" th:href="@{/index(pageNo=${session.pageNo - 1>0 ?session.pageNo - 1:1})}">Previous</a>
@@ -40,7 +58,7 @@
             <a class="page-link" th:href="@{/index(pageNo=1)}">1</a>
         </li>
 
-        <li class="page-item" th:classappend="${session.pageNo==2}?'active':''">
+        <li class="page-item" th:classappend="${session.pageNo==2}?'active':''" th:if="${session.totPg>1}">
             <a class="page-link" th:href="@{/index(pageNo=2)}">2</a>
         </li>
 

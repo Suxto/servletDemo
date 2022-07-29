@@ -1,6 +1,6 @@
 package com.example.servletdemo.servlets;
 
-import com.example.servletdemo.JDBC.Utils;
+import com.example.servletdemo.Utils.JDBC;
 import com.example.servletdemo.User;
 import com.example.servletdemo.myspringmvc.ViewBaseServlet;
 import org.junit.Test;
@@ -15,18 +15,18 @@ import java.io.IOException;
 @WebServlet("/edit.do")
 public class EditServletTest extends ViewBaseServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String id = req.getParameter("id");
         String toRemove = req.getParameter("remove");
         HttpSession session = req.getSession();
         System.out.println(id+' '+toRemove);
         if (toRemove != null) {
             String sql = "delete from users where id = ?";
-            Utils.upDate(sql, id);
+            JDBC.upDate(sql, id);
             resp.sendRedirect("index");
         } else {
             String sql = "select * from users where id = ?";
-            User user = Utils.getOne(User.class, sql, id);
+            User user = JDBC.getOne(User.class, sql, id);
 //        System.out.println(user);
             session.setAttribute("user", user);
             super.processTemplate("edit", req, resp);
@@ -37,12 +37,12 @@ public class EditServletTest extends ViewBaseServlet {
     public void test() {
         String id = "2";
         String sql = "select * from users where id = ?";
-        User user = Utils.getOne(User.class, sql, id);
+        User user = JDBC.getOne(User.class, sql, id);
         System.out.println(user);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("utf-8");
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
@@ -51,7 +51,7 @@ public class EditServletTest extends ViewBaseServlet {
         user.setuAge(Integer.parseInt(req.getParameter("uAge")));
         user.setuTel(req.getParameter("uTel"));
         String sql = "update users set uName = ?, uAge = ?, uTel = ? where id = ?";
-        Utils.upDate(sql, user.getuName(), user.getuAge(), user.getuTel(), user.getId());
+        JDBC.upDate(sql, user.getuName(), user.getuAge(), user.getuTel(), user.getId());
         resp.sendRedirect("index");
     }
 }
