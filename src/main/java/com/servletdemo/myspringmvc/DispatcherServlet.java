@@ -42,13 +42,9 @@ public class DispatcherServlet extends ViewBaseServlet {
                     String className = beanElement.getAttribute("class");
                     Constructor<?> constructor = Class.forName(className).getConstructor();
                     Object beanObj = constructor.newInstance();
-//                    Object beanObj = Class.forName(className).newInstance();
                     beanMap.put(beanId, beanObj);
-
-//                    System.out.println(beanId);
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,16 +69,12 @@ public class DispatcherServlet extends ViewBaseServlet {
             Method[] methods = controllerObj.getClass().getDeclaredMethods();
             for (Method method : methods) {
                 if (operate.equals(method.getName())) {
-                    //1.统一获取请求参数
-                    //1-1.获取当前方法的参数，返回参数数组
                     Parameter[] parameters = method.getParameters();
-                    //1-2.parameterValues 用来承载参数的值
                     Object[] parameterValues = new Object[parameters.length];
                     for (int i = 0; i < parameters.length; i++) {
                         Parameter parameter = parameters[i];
                         String parameterName = parameter.getName();
                         System.out.println(parameterName);
-                        //如果参数名是request,response,session 那么就不是通过请求中获取参数的方式了
                         if ("session".equals(parameterName)) {
                             parameterValues[i] = req.getSession();
                         } else {
