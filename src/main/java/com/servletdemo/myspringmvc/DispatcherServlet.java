@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,28 +65,47 @@ public class DispatcherServlet extends ViewBaseServlet {
 
         Object controllerObj = beanMap.get(servletPath);
 
-//        String name = controllerObj.getClass().getName();
-//        System.out.println(name);
 
         String operate = req.getParameter("operate");
-
         if (Tools.isEmpty(operate)) operate = "index";
-        try {
-            Method method = controllerObj.getClass().getDeclaredMethod(operate, HttpServletRequest.class);
-            method.setAccessible(true);
-            Object returnObj = method.invoke(controllerObj, req);
-            String returnStr = (String) returnObj;
-            if (returnStr.startsWith("redirect:")) {
-                String newDirection = returnStr.substring("redirect:".length());
-//                    System.out.println(newDirection);
-                resp.sendRedirect(newDirection);
 
-            } else {
-                super.processTemplate(returnStr, req, resp);
+        try {
+            Method[] methods = controllerObj.getClass().getDeclaredMethods();
+            for (Method method : methods) {
+                if (operate.equals(method.getName())) {
+                    //1.统一获取请求参数
+                    //1-1.获取当前方法的参数，返回参数数组
+                    Parameter[] parameters = method.getParameters();
+                    //1-2.parameterValues 用来承载参数的值
+                    Object[] parameterValues = new Object[parameters.length];
+                    for (int i = 0; i < parameters.length; i++) {
+                        Parameter parameter = parameters[i];
+                        String parameterName = parameter.getName();
+                        System.out.println(parameterName);
+                        //如果参数名是request,response,session 那么就不是通过请求中获取参数的方式了
+                        if ("session".equals(parameterName)) {
+                            parameterValues[i] = req.getSession();
+                        } else {
+
+                            String parameterValue = req.getParameter(parameterName);
+                            parameterValues[i] = parameterValue;
+                        }
+                    }
+                    method.setAccessible(true);
+                    Object returnObj = method.invoke(controllerObj, parameterValues);
+
+                    String returnStr = (String) returnObj;
+                    if (returnStr.startsWith("redirect:")) {
+                        String newDirection = returnStr.substring("redirect:".length());
+                        resp.sendRedirect(newDirection);
+
+                    } else {
+                        super.processTemplate(returnStr, req, resp);
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }

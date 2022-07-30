@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="container-fluid p-3 w-75">
-    <form method="post">
+    <form method="post" th:action="@{/user.do(operate=update)}">
         <table class="table table-striped" th:object="${session.user}">
             <thead>
             <tr>
@@ -39,7 +39,9 @@
             <tr>
                 <td colspan="2" class="text-center">
                     <button type="submit" class=" btn btn-primary w-25">Submit</button>
-                    <button type="button" class="btn btn-danger w-25" th:onclick="|remove('@{/user.do(operate=remove)}')|">Remove</button>
+                    <button type="button" class="btn btn-danger w-25"
+                            th:onclick="|remove('@{/user.do(operate=remove)}')|">Remove
+                    </button>
                 </td>
             </tr>
 

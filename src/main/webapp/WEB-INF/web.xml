@@ -11,4 +11,22 @@
         <param-name>view-suffix</param-name>
         <param-value>.html</param-value>
     </context-param>
+
+<!--    <servlet>-->
+<!--        <servlet-name>TestServlet</servlet-name>-->
+<!--        <servlet-class>com.servletdemo.myspringmvc.TestServlet</servlet-class>-->
+<!--        <init-param>-->
+<!--            <param-name>key</param-name>-->
+<!--            <param-value>word</param-value>-->
+<!--        </init-param>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>TestServlet</servlet-name>-->
+<!--        <url-pattern>/test</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+    <context-param>
+        <param-name>loc</param-name>
+        <param-value>xiaan</param-value>
+    </context-param>
 </web-app>
