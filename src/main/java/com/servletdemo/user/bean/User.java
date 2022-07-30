@@ -1,4 +1,4 @@
-package com.servletdemo.bean;
+package com.servletdemo.user.bean;
 
 public class User {
     private String uName;

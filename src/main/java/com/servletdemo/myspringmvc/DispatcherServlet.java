@@ -74,7 +74,7 @@ public class DispatcherServlet extends ViewBaseServlet {
                     for (int i = 0; i < parameters.length; i++) {
                         Parameter parameter = parameters[i];
                         String parameterName = parameter.getName();
-                        System.out.println(parameterName);
+//                        System.out.println(parameterName);
                         if ("session".equals(parameterName)) {
                             parameterValues[i] = req.getSession();
                         } else {
