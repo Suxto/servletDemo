@@ -1,25 +1,15 @@
-package com.servletdemo.myspringmvc;
+package com.servletdemo.myspringmvc.servlets;
 
 import com.servletdemo.myspringmvc.io.BeanFactory;
 import com.servletdemo.myspringmvc.io.ClassPathXmlApplicationContext;
 import com.servletdemo.utils.Tools;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.HashMap;
-import java.util.Map;
 
 @WebServlet("*.do")
 public class DispatcherServlet extends ViewBaseServlet {
@@ -31,8 +21,8 @@ public class DispatcherServlet extends ViewBaseServlet {
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        req.setCharacterEncoding("utf-8");
+    protected void service(HttpServletRequest req, HttpServletResponse resp) {
+//        req.setCharacterEncoding("utf-8");
         String servletPath = req.getServletPath();
         servletPath = servletPath.substring(1);
         int lastDotIndex = servletPath.lastIndexOf(".do");

@@ -1,4 +1,4 @@
-package com.servletdemo.user.controllers;
+package com.servletdemo.myspringmvc.controllers;
 
 import com.servletdemo.user.bean.User;
 import com.servletdemo.user.service.impl.UserServiceImpl;

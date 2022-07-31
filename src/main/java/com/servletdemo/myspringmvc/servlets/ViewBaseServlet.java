@@ -1,4 +1,4 @@
-package com.servletdemo.myspringmvc;
+package com.servletdemo.myspringmvc.servlets;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
