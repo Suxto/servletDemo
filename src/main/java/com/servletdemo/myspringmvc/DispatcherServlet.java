@@ -1,5 +1,7 @@
 package com.servletdemo.myspringmvc;
 
+import com.servletdemo.myspringmvc.io.BeanFactory;
+import com.servletdemo.myspringmvc.io.ClassPathXmlApplicationContext;
 import com.servletdemo.utils.Tools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,33 +23,11 @@ import java.util.Map;
 
 @WebServlet("*.do")
 public class DispatcherServlet extends ViewBaseServlet {
-
-    private final Map<String, Object> beanMap = new HashMap<>();
+    private BeanFactory beanFactory;
 
     public void init() {
         super.init();
-        InputStream inputStream = DispatcherServlet.class.getResourceAsStream("/applicationContext.xml");
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder;
-        try {
-            documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(inputStream);
-            NodeList beanNodeList = document.getElementsByTagName("bean");
-
-            for (int i = 0; i < beanNodeList.getLength(); i++) {
-                Node beanNode = beanNodeList.item(i);
-                if (beanNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element beanElement = (Element) beanNode;
-                    String beanId = beanElement.getAttribute("id");
-                    String className = beanElement.getAttribute("class");
-                    Constructor<?> constructor = Class.forName(className).getConstructor();
-                    Object beanObj = constructor.newInstance();
-                    beanMap.put(beanId, beanObj);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        beanFactory = new ClassPathXmlApplicationContext();
     }
 
     @Override
@@ -59,7 +39,7 @@ public class DispatcherServlet extends ViewBaseServlet {
         servletPath = servletPath.substring(0, lastDotIndex);
 
 
-        Object controllerObj = beanMap.get(servletPath);
+        Object controllerObj = beanFactory.getBean(servletPath);
 
 
         String operate = req.getParameter("operate");

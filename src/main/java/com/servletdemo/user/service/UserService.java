@@ -1,4 +1,4 @@
-package com.servletdemo.user.biz;
+package com.servletdemo.user.service;
 
 import com.servletdemo.user.bean.User;
 

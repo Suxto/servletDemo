@@ -1,7 +1,7 @@
 package com.servletdemo.user.controllers;
 
 import com.servletdemo.user.bean.User;
-import com.servletdemo.user.biz.impl.UserServiceImpl;
+import com.servletdemo.user.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -11,7 +11,7 @@ import static com.servletdemo.utils.Tools.isnEmpty;
 
 public class UserController {
 
-    UserServiceImpl userService = new UserServiceImpl();
+    UserServiceImpl userService = null;
 
     private String index(HttpSession session, String pageNo, String keyword) {
         if (pageNo == null) pageNo = "1";

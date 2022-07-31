@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <beans>
-    <bean id="user" class="com.servletdemo.user.controllers.UserController"/>
+    <bean id="userService" class="com.servletdemo.user.service.impl.UserServiceImpl"/>
+    <bean id="user" class="com.servletdemo.user.controllers.UserController">
+        <!--    name是一会需要实例类的属性名    ref中的值是某一个 bean的 id-->
+        <property name="userService" ref="userService"/>
+    </bean>
 </beans>

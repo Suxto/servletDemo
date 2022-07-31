@@ -1,7 +1,7 @@
-package com.servletdemo.user.biz.impl;
+package com.servletdemo.user.service.impl;
 
 import com.servletdemo.user.bean.User;
-import com.servletdemo.user.biz.UserService;
+import com.servletdemo.user.service.UserService;
 import com.servletdemo.utils.JDBC;
 import com.servletdemo.utils.Tools;
 
